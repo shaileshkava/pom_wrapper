@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<suite name="regression-suite" parallel="tests" thread-count="3">
+    <test name="TC_Verify_EnteredMessage">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="Scripts.VerifyMessage"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,7 @@
+bin/
+Reports/
+test-output/
+Reports/
+/target/
+ExecutionReport/
+Logs/
