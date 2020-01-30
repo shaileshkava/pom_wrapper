@@ -12,6 +12,7 @@ public class admin_paegName_testcase1 {
 			System.out.println("This is testing");
 		}catch(Custom_Exception e){
 			System.out.println("Custom error generated");
+			System.out.println("Custom error generated");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
