@@ -7,7 +7,7 @@ public class admin_paegName_testcase1 {
 		try{
 			int i=10;
 			if(i!=9)
-				throw new Custom_Exception("Testing purpose only");
+				throw new Custom_Exception("Testing purpose only1");
 			
 			System.out.println("This is testing");
 		}catch(Custom_Exception e){
