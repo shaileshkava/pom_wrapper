@@ -73,6 +73,11 @@ public class ExcelReader {
 		
 	}
 	
+	/**This method is used to get column position from excel
+	 * 
+	 * @param colName
+	 * @return
+	 */
 	public int getColNum(String colName){
 		
 		int searchedColNumber=0;
@@ -125,6 +130,11 @@ public class ExcelReader {
 		}
 	}
 	
+	/**This method will return records of given column name in Object
+	 * 
+	 * @param colName
+	 * @return data in object
+	 */
 	public Object[] getDataForSelectedCols(String colName){
 		
 		int getValueForCol = getColNum(colName);

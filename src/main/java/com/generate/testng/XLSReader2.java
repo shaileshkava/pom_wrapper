@@ -70,6 +70,7 @@ public class XLSReader2 {
                 String testName = recordset.getField("TestCaseDescription");
                 String className = recordset.getField("ClassName");
                 String paramValue = recordset.getField("Browser");
+                System.out.println("Parameter Browser "+paramValue);
                 /*String parallelVal = recordset.getField("Parallel");
                 String threadCount = recordset.getField("thread-count");*/
                 String testDescription = recordset.getField("TestCaseDescription");

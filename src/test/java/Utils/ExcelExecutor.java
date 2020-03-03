@@ -14,7 +14,7 @@ public class ExcelExecutor {
 		//er.getEntireSheetData();
 		//er.getColNum("userid");
 		//er.getDataForSelectedCol("userid");
-		
+		//er.getEntireSheetData();
 		Object obj[] = er.getDataForSelectedCols("userid");
 		
 		System.out.println("Object Length = "+obj.length);

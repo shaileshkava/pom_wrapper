@@ -12,10 +12,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+//import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+//import Scripts.VerifyMessage;
+
 public class GenerateTestNG {
+	//static Logger log = Logger.getLogger(GenerateTestNG.class);
 	
 	public static String xmlFilePath;
 	
@@ -30,10 +34,10 @@ public class GenerateTestNG {
 	
 	public void generateFile(String className, String  browser, String parallel, 
 			String threadCount, String testCaseDesc, String testData, String fileName, int testCaseNumber){
-		
+			System.out.println("Browser "+browser);
 		try {
 			
-			System.out.println("threadCount "+threadCount+" parallel "+parallel); 
+			//System.out.println("threadCount "+threadCount+" parallel "+parallel); 
 			if(testCaseNumber==0){
 	            documentFactory = DocumentBuilderFactory.newInstance();
 	 
@@ -51,11 +55,8 @@ public class GenerateTestNG {
 	            }
 	            root.setAttribute("name", suiteName);
 	            if(parallel.length()>=1){
-	            	System.out.println("If parallel");
-		            root.setAttribute("parallel", parallel);
+	            	root.setAttribute("parallel", parallel);
 		            root.setAttribute("thread-count", threadCount);
-	            }else{
-	            	System.out.println("else parallel =="+parallel);
 	            }
 	            document.appendChild(root);
 			}
@@ -68,15 +69,26 @@ public class GenerateTestNG {
         	//param.appendChild(document.createTextNode(""));
         	param.setAttribute("name", "browser");
         	param.setAttribute("value", browser);
-            test.appendChild(param);
+        	
+        	test.appendChild(param);
             
-            if(!testData.contains("")){
+        	Element testName = document.createElement("parameter");
+        	
+        	testName.setAttribute("name", "TestCaseDescription");
+        	testName.setAttribute("value", testCaseDesc);
+        	
+        	test.appendChild(testName);
+        	
+            if(testData.length()>1){
             	Element param1 = document.createElement("parameter");
 	        	//param.appendChild(document.createTextNode(""));
 	        	param1.setAttribute("name", "data");
 	        	param1.setAttribute("value", testData);
-	            test.appendChild(param1);
-            }
+	        	test.appendChild(param1);
+	        }else{
+	        	//log.error("Data is not set and it is blank");
+	        	System.out.println("Data is not set and it is blank");
+	        }
             
             Element classes = document.createElement("classes");
             test.appendChild(classes);

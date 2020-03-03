@@ -16,6 +16,7 @@
 		<fileName>${ENVIRONMENT}</fileName>
 		<testSuite>${TESTSUITE}</testSuite>
 		<testngExt>.xml</testngExt>
+		<!-- <logfile>./Logs/Log4j.log</logfile> -->
 	</properties>
 
 	<build>
@@ -26,14 +27,40 @@
 			</resource>
 		</resources>
 		<!-- This plugin is used to clean directory before executing -->
+		<!-- <pluginManagement> -->
 		<plugins>
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven.assembly-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+ 							<mainClass>com.generate.testng.CreateTestNG</mainClass>
+						</manifest>
+					</archive>
+					<descriptionRefs>
+						<descriptionRef>jar-with-dependencies</descriptionRef>
+					</descriptionRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
 				<executions>
 					<execution>
-						<phase>generate-test-resources</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>java</goal>
 						</goals>
@@ -46,6 +73,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.1.0</version>
@@ -82,9 +110,17 @@
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
-
-			<!-- This plugin is used to copy properties file to run.properties -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<!-- This plugin is used to copy properties file to run.properties -->
+			<!-- <plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 				<executions>
@@ -106,9 +142,9 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<!-- Plug in for renaming file -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>com.coderplus.maven.plugins</groupId>
 				<artifactId>copy-rename-maven-plugin</artifactId>
 				<version>1.0.1</version>
@@ -120,19 +156,56 @@
 							<goal>rename</goal>
 						</goals>
 						<configuration>
-							<sourceFile>Properties/Execution_Property/${fileName}${fileExtension}</sourceFile>
+							<sourceFile>Properties/Execution_Property/${ENVIRONMENT}${fileExtension}</sourceFile>
 							<destinationFile>Properties/Execution_Property/run.properties</destinationFile>
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
+		<!-- </pluginManagement> -->
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											exec-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.2.1,)
+										</versionRange>
+										<goals>
+											<goal>java</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>
 			<artifactId>webdrivermanager</artifactId>
-			<version>3.7.1</version>
+			<version>3.8.1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
 		<dependency>
@@ -194,5 +267,11 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.5</version>
 		</dependency>
+		<!-- <dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>3.2.0</version>
+			<type>maven-plugin</type>
+		</dependency> -->
 	</dependencies>
 </project>
