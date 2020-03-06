@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<suite name="smoke-suite" parallel="tests" thread-count="2">
+    <test name="TC_Verify_VerifyMessage_firefox">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="TestCaseDescription" value="TC_Verify_VerifyMessage_firefox"/>
+        <parameter name="data" value="Testing purpose only"/>
+        <classes>
+            <class name="Scripts.Inbox.VerifyEnteredMessage"/>
+        </classes>
+    </test>
+    <test name="TC_Verify_AddAll_Firefox">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="TestCaseDescription" value="TC_Verify_AddAll_Firefox"/>
+        <classes>
+            <class name="Scripts.ListBox.AddAll"/>
+        </classes>
+    </test>
+    <test name="TC_Verify_RemoveItems_Chrome">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="TestCaseDescription" value="TC_Verify_RemoveItems_Chrome"/>
+        <classes>
+            <class name="Scripts.ListBox.RemoveAll"/>
+        </classes>
+    </test>
+</suite>

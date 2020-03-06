@@ -1,4 +1,4 @@
-package Scripts.Index;
+package Scripts.Inbox;
 
 import org.apache.log4j.Logger;
 import org.testng.annotations.Parameters;
@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
 
-import Page.page_demo_first;
+import Pages.Inbox;
 import common.Ashot_Screenshot;
 import common.BaseClass;
 import common.Custom_Exception;
@@ -26,7 +26,7 @@ public class EnterMessage extends BaseClass{
 		  getDriver().get(url);
 		  extent.log(LogStatus.PASS, "URL is open succesfully", "");
 		  Thread.sleep(1000);
-		  page_demo_first pdf = new page_demo_first(getDriver());
+		  Inbox pdf = new Inbox(getDriver());
 		  
 		  if(!bClickable(pdf.userInput, getDriver(), 5)){
 			  new Ashot_Screenshot().captureScreenshot("test", getDriver(), pdf.userInput);
@@ -44,8 +44,8 @@ public class EnterMessage extends BaseClass{
 		  extent.log(LogStatus.PASS, "Clicking on button");
 		  pdf.btnShotMessage.click();
 		  extent.log(LogStatus.PASS, "Clicked on button");
+		  bVisible(pdf.strEnteredMessage, getDriver(), 5);
 		  
-		  pdf.bVisible(pdf.strEnteredMessage,5);
 		 
 	  }catch(Exception e){
 		  e.printStackTrace();

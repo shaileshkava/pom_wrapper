@@ -29,11 +29,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @SuppressWarnings("unused")
 public class BaseClass extends ReusableMethods {
 	
+	private static String resourcePath="src/test/resources/";
 	private static BaseClass instance = null;
 	public static Properties property=null;
-	private static String qaProperty = "Properties/qa.properties";
-	private static String stagProperty = "Properties/stag.properties";
-	private static String prodProperty = "Properties/prod.properties";
+	private static String qaProperty = resourcePath+"Properties/qa.properties";
+	private static String stagProperty = resourcePath+"Properties/stag.properties";
+	private static String prodProperty = resourcePath+"Properties/prod.properties";
 	public static ExtentReports reports;
 	public ExtentTest extent;
 
@@ -90,7 +91,7 @@ public class BaseClass extends ReusableMethods {
 		case "edge":
 			/*EdgeOptions options = new EdgeOptions();
 			//options.setProxy(proxy)
-*/			System.setProperty("webdriver.edge.driver", "Drivers/MicrosoftWebDriver.exe");
+*/			System.setProperty("webdriver.edge.driver", resourcePath+"Drivers/MicrosoftWebDriver.exe");
 			WebDriver driver = new EdgeDriver();
 			//WebDriverManager.edgedriver().setup();
 			webDriver.set(driver);
@@ -122,6 +123,32 @@ public class BaseClass extends ReusableMethods {
 		reports.loadConfig(new File("extent-config.xml"));
 	}
 	
+	@BeforeSuite
+	public void createScreenshotFolder(){
+		String screenshotDir = "Screenshot";
+		String executionDir = "ExecutionReport";
+		
+		File dir = new File(screenshotDir);
+		File ExecutionReport = new File(executionDir);
+		
+		if(!dir.exists()){
+			log.info("Directory is not present");
+			dir.mkdir();
+		}else{
+			log.info("Directory is already presented");
+		}
+		
+		if(!ExecutionReport.exists()){
+			log.info("Directory is not present");
+			dir.mkdir();
+		}else{
+			log.info("Directory is already presented");
+		}
+	}
+	
+	/**Load property files relevant to given argument from Maven command
+	 * @author shakava
+	 */
 	@BeforeSuite
 	public void propertiesFileReader(){
 		if(prop == null){			

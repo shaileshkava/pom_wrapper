@@ -3,7 +3,7 @@ package Utils;
 import java.io.IOException;
 
 public class ExcelExecutor {
-	static String filePath = "./Data/TestData.xlsx";
+	static String filePath = "src/test/resources/TestData/TestData.xlsx";
 	
 	public static void main(String[] args) throws IOException {
 		

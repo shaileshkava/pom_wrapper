@@ -52,6 +52,7 @@ public class XLSReader2 {
         try {
             connection = fillo.getConnection(this.filePath);
             Recordset recordset = connection.executeQuery(query);
+            System.out.println("Record set count = "+recordset.getCount());
             this.createSuite(recordset, fileName);
         } catch (FilloException e) {
             e.printStackTrace();

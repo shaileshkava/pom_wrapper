@@ -10,10 +10,10 @@ import common.Ashot_Screenshot;
 import common.BaseClass;
 import common.Custom_Exception;
 
-public class AddAll extends BaseClass{
+public class RemoveAll extends BaseClass{
   @Parameters({"TestCaseDescription"})
   @Test
-  public void AddList(String testName) {
+  public void RemoveList(String testName) {
 	  
 	  try{
 		  String screenshot;
@@ -62,9 +62,19 @@ public class AddAll extends BaseClass{
 			  new Custom_Exception("List not added");
 		  }
 		  
-		  extent.log(LogStatus.PASS, "List added succesfully",extent.addScreenCapture(pathScreenshot+screenshot+screenshotExt) );
 		  
-		  extent.log(LogStatus.PASS, lb.lstGetPickListItems("right").toString());
+		  extent.log(LogStatus.PASS, "Removing all from added list",extent.addScreenCapture(pathScreenshot+screenshot+screenshotExt) );
+		  
+		  lb.btnRemAll.click();
+		  
+		  bVisible(lb.listAvailableItems.get(1), getDriver(), 5);
+		  
+		  if(lb.listRemovedItems.size() > 0){
+			  screenshot = "notRemoved";
+			  extent.log(LogStatus.FAIL, "List not removed", extent.addScreenCapture(pathScreenshot+screenshot+screenshotExt));
+		  }
+		  
+		  extent.log(LogStatus.PASS, "Items are removed successfully!");
 		  
 	  }catch(Exception e){
 		  new Custom_Exception("Final Exception");

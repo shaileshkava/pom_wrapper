@@ -26,7 +26,7 @@ public class ExcelReader {
 	ExcelReader(String filePath, String SheetName) throws IOException{
 		try{
 			//file = new File(filePath);
-			file = new File("./Data/TestData.xlsx");
+			file = new File(filePath);
 			fis = new FileInputStream(file);
 			workbook = new XSSFWorkbook(fis);
 			sheet = workbook.getSheet(SheetName);
