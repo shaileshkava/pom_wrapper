@@ -24,6 +24,7 @@ public class Ashot_Screenshot extends ReusableMethods{
 	 * @author shakava
 	 */
 	public void captureScreenshot(String imageName, WebDriver driver) throws IOException{
+		System.out.println("Capturing screenshot");
 		screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
 		ImageIO.write(screenshot.getImage(), "jpg", new File("./Screenshot/"+imageName+".jpg"));
 	}
@@ -37,6 +38,7 @@ public class Ashot_Screenshot extends ReusableMethods{
 	 * @author shakava
 	 */
 	public void captureScreenshot(String imageName, WebDriver driver, WebElement ele) throws IOException{
+		
 		highlightWebElement(ele, driver);
 		screenshot = new AShot().takeScreenshot(driver, ele);
 		ImageIO.write(screenshot.getImage(), "png", new File("./Screenshot/"+imageName+".png"));

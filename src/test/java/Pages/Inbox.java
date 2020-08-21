@@ -23,6 +23,9 @@ public class Inbox {
 	@FindBy(xpath="//span[@id='display']")
 	public WebElement strEnteredMessage;
 	
+	@FindBy(id="at-cv-lightbox-close")
+	public WebElement closePopup;
+	
 //Methods can be started from here
 	
 }

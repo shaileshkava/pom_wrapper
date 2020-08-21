@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,6 +14,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -29,10 +31,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @SuppressWarnings("unused")
 public class BaseClass extends ReusableMethods {
 	
+	public static String filePath = "src/test/resources/TestData/TestData.xlsx";
 	private static String resourcePath="src/test/resources/";
 	private static BaseClass instance = null;
 	public static Properties property=null;
 	private static String qaProperty = resourcePath+"Properties/qa.properties";
+	private static String defaultProperty = resourcePath+"Properties/Default/exec.properties";
 	private static String stagProperty = resourcePath+"Properties/stag.properties";
 	private static String prodProperty = resourcePath+"Properties/prod.properties";
 	public static ExtentReports reports;
@@ -51,6 +55,14 @@ public class BaseClass extends ReusableMethods {
 	
 	static Logger log = Logger.getLogger(BaseClass.class);
 	public String setBrowser;
+	
+	public static BaseClass getInstance() {
+		if (instance == null) {
+			instance = new BaseClass();
+		}
+		return instance;
+	}
+	
 	/**
 	 * This method is initialize driver based on given parameter name as browser
 	 * [Chrome, FF, Edge]
@@ -59,14 +71,6 @@ public class BaseClass extends ReusableMethods {
 	 * @return
 	 * @author shakava
 	 */
-
-	public static BaseClass getInstance() {
-		if (instance == null) {
-			instance = new BaseClass();
-		}
-		return instance;
-	}
-	
 	@Parameters({"browser"})
 	@BeforeMethod
 	public final void setDriver(String browser) throws Exception{
@@ -155,13 +159,25 @@ public class BaseClass extends ReusableMethods {
 			prop = new Properties();
 			try {
 				
-				if(strEnvironment.equalsIgnoreCase("qa")){
-					prop.load(new FileInputStream(qaProperty));
-				}else if(strEnvironment.equalsIgnoreCase("stage")){
-					prop.load(new FileInputStream(stagProperty));
-				}else if(strEnvironment.equalsIgnoreCase("prod")){
-					prop.load(new FileInputStream(prodProperty));
-				}
+				/*
+				 * if(strEnvironment.equalsIgnoreCase("qa")){ prop.load(new
+				 * FileInputStream(qaProperty)); }else
+				 * if(strEnvironment.equalsIgnoreCase("stage")){ prop.load(new
+				 * FileInputStream(stagProperty)); }else
+				 * if(strEnvironment.equalsIgnoreCase("prod")){ prop.load(new
+				 * FileInputStream(prodProperty)); }
+				 */
+				
+				if(strEnvironment.equalsIgnoreCase("qa")) 
+					FileUtils.copyFile(new File(qaProperty), new File(defaultProperty));
+				if(strEnvironment.equalsIgnoreCase("stage"))
+					FileUtils.copyFile(new File(stagProperty), new File(defaultProperty));
+				if(strEnvironment.equalsIgnoreCase("prod"))
+					FileUtils.copyFile(new File(prodProperty), new File(defaultProperty));
+				
+				prop.load(new FileInputStream(defaultProperty));
+				
+				System.out.println("user + pass ["+prop.getProperty("username")+"==="+prop.getProperty("password"));
 				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -178,17 +194,17 @@ public class BaseClass extends ReusableMethods {
 	 */
 	@AfterMethod
 	public void getResult(ITestResult result) {
-
+		System.out.println("TestCaseStatus == "+result.getStatus());
 		if (result.getStatus() == ITestResult.FAILURE) {
-			extent.log(LogStatus.FAIL, "Failed Test Case " + result.getThrowable());
+			//extent.log(LogStatus.FAIL, "Failed Test Case " + result.getThrowable());
 			extent.log(LogStatus.FAIL, result.getName() + " Test case is filed");
-		} else if (result.getStatus() == ITestResult.SUCCESS) {
+		} if (result.getStatus() == ITestResult.SUCCESS) {
 			extent.log(LogStatus.PASS, "Test case is Pass " + result.getName());
-		} else if (result.getStatus() == ITestResult.SKIP) {
+		} if (result.getStatus() == ITestResult.SKIP) {
 			extent.log(LogStatus.SKIP, "Test case is Skipped " + result.getName());
 		}
 	}
-
+	
 	@AfterSuite
 	public void tearDown() {
 		// Removing log4j.log file from Log directory which has size of 0 byte

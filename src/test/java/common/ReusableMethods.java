@@ -3,11 +3,20 @@ package common;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.codoid.products.exception.FilloException;
+import com.codoid.products.fillo.Connection;
+import com.codoid.products.fillo.Fillo;
+import com.codoid.products.fillo.Recordset;
 
 /**
  * This class contains methods which are common.
@@ -15,7 +24,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  *
  */
 public class ReusableMethods {
-	
+	Fillo fillo;
+	Connection connection;
+	Recordset records;
 	/** This method will remove single file or all files listed in given directory
 	 * 
 	 * @param type = [dir | file]
@@ -70,18 +81,44 @@ public class ReusableMethods {
 		jse.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", we);
 	}
 	
+	public FluentWait<WebDriver> fluentWaitObj(WebDriver driver){
+		FluentWait<WebDriver> fWait = new FluentWait<>(driver)
+				.withTimeout(Duration.of(50, ChronoUnit.SECONDS))
+				.pollingEvery(Duration.of(5, ChronoUnit.MILLIS))
+				.ignoring(Exception.class);
+		
+		System.out.println("Returning fluent wait object");
+		
+		return fWait;
+	}
+	
+	
 	/**This method is used to wait until webelement is visible by specified seconds
 	 * 
 	 * @param we (Webelement name)
 	 * @param secToWait (Seconds to wait)
 	 * @return - boolen
 	 */
+	
 	public boolean bVisible(WebElement we, WebDriver driver, int secToWait){
+		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		boolean bStatus = true;
 		
 		try{
-			WebDriverWait wait = new WebDriverWait(driver, secToWait);
-			wait.until(ExpectedConditions.visibilityOf(we));
+			FluentWait<WebDriver> fWait = fluentWaitObj(driver);
+			
+			/*
+			 * FluentWait<WebDriver> fWait = new FluentWait<>(driver)
+			 * .withTimeout(Duration.of(50, ChronoUnit.SECONDS))
+			 * .pollingEvery(Duration.of(5, ChronoUnit.MILLIS)) .ignoring(Exception.class);
+			 */
+					
+			fWait.until(ExpectedConditions.visibilityOf(we));
+			
+			/*
+			 * WebDriverWait wait = new WebDriverWait(driver, secToWait);
+			 * wait.until(ExpectedConditions.visibilityOf(we));
+			 */
 		}catch(Exception e){
 			bStatus = false;
 		}
@@ -108,5 +145,26 @@ public class ReusableMethods {
 		}
 		
 		return bStatus;
+	}
+	
+	public Recordset getExcelFromSQL(String sSQL) throws FilloException {
+		fillo = new Fillo();
+		connection = fillo.getConnection(BaseClass.filePath);
+		System.out.println(connection);
+		String sSQLQuery = sSQL;
+		records = connection.executeQuery(sSQLQuery);
+		
+		return records;
+	}
+	
+	public void closeRecordsetExcel() {
+		records.close();
+		connection.close();
+	}
+	
+	public String getOSName() {
+		//String osName = null;
+		
+		return System.getProperty("os.name");
 	}
 }

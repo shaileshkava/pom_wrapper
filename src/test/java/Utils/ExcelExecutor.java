@@ -7,14 +7,13 @@ public class ExcelExecutor {
 	
 	public static void main(String[] args) throws IOException {
 		
-		ExcelReader er = new ExcelReader(filePath, "Users");
+		ExcelRead er = new ExcelRead(filePath, "Users");
 		/*int colCount = er.getColCount();
 		int rowCount = er.getRowCount();*/
 		
 		//er.getEntireSheetData();
 		//er.getColNum("userid");
 		//er.getDataForSelectedCol("userid");
-		//er.getEntireSheetData();
 		Object obj[] = er.getDataForSelectedCols("userid");
 		
 		System.out.println("Object Length = "+obj.length);

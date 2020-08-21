@@ -15,18 +15,11 @@
             <class name="Scripts.Inbox.VerifyEnteredMessage"/>
         </classes>
     </test>
-    <test name="TC_Verify_AddAll_Firefox">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="TestCaseDescription" value="TC_Verify_AddAll_Firefox"/>
-        <classes>
-            <class name="Scripts.ListBox.AddAll"/>
-        </classes>
-    </test>
-    <test name="TC_Verify_RemoveItems_Chrome">
+    <test name="TC_Verify_VerifyMessage_Chrome">
         <parameter name="browser" value="chrome"/>
-        <parameter name="TestCaseDescription" value="TC_Verify_RemoveItems_Chrome"/>
+        <parameter name="TestCaseDescription" value="TC_Verify_VerifyMessage_Chrome"/>
         <classes>
-            <class name="Scripts.ListBox.RemoveAll"/>
+            <class name="Scripts.Inbox.VerifyEnteredMessage"/>
         </classes>
     </test>
 </suite>

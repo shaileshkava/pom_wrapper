@@ -12,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelReader {
+public class ExcelRead {
 	static XSSFWorkbook workbook;
 	static XSSFSheet sheet;
 	static File file;
@@ -23,7 +23,7 @@ public class ExcelReader {
 	 * @param SheetName
 	 * @throws IOException
 	 */
-	ExcelReader(String filePath, String SheetName) throws IOException{
+	public ExcelRead(String filePath, String SheetName) throws IOException{
 		try{
 			//file = new File(filePath);
 			file = new File(filePath);
@@ -104,7 +104,7 @@ public class ExcelReader {
 				}
 			}
 		}
-		System.out.println("Identified col number [ "+searchedColNumber+" ]");
+		//System.out.println("Identified col number [ "+searchedColNumber+" ]");
 		return searchedColNumber;
 	}
 	
@@ -143,7 +143,7 @@ public class ExcelReader {
 		
 		Object obj[] = new Object[totalRowCount-firstUsedRow];
 		
-		System.out.println("[ "+firstUsedRow+" ] [ "+totalRowCount+" ]");
+		//System.out.println("[ "+firstUsedRow+" ] [ "+totalRowCount+" ]");
 		
 		XSSFRow row;
 		XSSFCell cell = null;
@@ -153,13 +153,16 @@ public class ExcelReader {
 			
 			if(row!=null){
 				cell = row.getCell(getValueForCol);
+				System.out.println("Cell Type = "+cell.getCellType());
 				cell.setCellType(Cell.CELL_TYPE_STRING);
 				if(cell.getCellType() != Cell.CELL_TYPE_BLANK)
 					obj[i-1] = cell.getRichStringCellValue();
-					System.out.println(i+"==="+cell.getRichStringCellValue());
+				else
+					obj[i-1] = "";
 			}
 		}
 		
 		return obj;
 	}
+	
 }
