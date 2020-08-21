@@ -122,7 +122,8 @@ public class BaseClass extends ReusableMethods {
 	@BeforeSuite
 	public void setUp() {
 		String reportName = "Report-" + getCurrentDateNTime("yyyy-MM-dd-HH-mm-ss");
-		String reportFileName = reportName + ".html";
+		//String reportFileName = reportName + ".html";
+		String reportFileName = "TestExecutionReport.html";
 		reports = new ExtentReports("./ExecutionReport/" + reportFileName, true);
 		reports.loadConfig(new File("extent-config.xml"));
 	}
